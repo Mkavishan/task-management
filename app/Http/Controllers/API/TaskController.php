@@ -15,29 +15,28 @@ use Illuminate\Http\JsonResponse;
 
 class TaskController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(): TaskCollection
     {
-        // TODO: Handle pagination.
-        return response()->json(new TaskCollection(Task::all()), Response::HTTP_OK);
+        return new TaskCollection(Task::paginate(10));
     }
 
-    public function show(Task $task): JsonResponse
+    public function show(Task $task): TaskResource
     {
-        return response()->json(new TaskResource($task), Response::HTTP_OK);
+        return new TaskResource($task);
     }
 
-    public function store(TaskRequest $taskRequest): JsonResponse
+    public function store(TaskRequest $taskRequest): TaskResource
     {
         $task = Task::create($taskRequest->toArray());
 
-        return response()->json($task, Response::HTTP_CREATED);
+        return new TaskResource($task);
     }
 
-    public function update(TaskRequest $taskRequest, Task $task): JsonResponse
+    public function update(TaskRequest $taskRequest, Task $task): TaskResource
     {
         $task->update($taskRequest->toArray());
 
-        return response()->json(null, Response::HTTP_NO_CONTENT);
+        return new TaskResource($task);
     }
 
     public function destroy(Task $task): JsonResponse
