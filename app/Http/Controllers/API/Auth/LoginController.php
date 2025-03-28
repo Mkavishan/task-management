@@ -13,7 +13,10 @@ class LoginController
     {
         if (Auth::attempt($request->only('email', 'password'))) {
             return response()->json(
-                ['token' => Auth::user()->createToken('TaskApp')->plainTextToken],
+                [
+                    'user' => Auth::user(),
+                    'token' => Auth::user()->createToken('TaskApp')->plainTextToken
+                ],
                 Response::HTTP_OK
             );
         }
