@@ -23,7 +23,8 @@ class TaskRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'assets.*' => ['file', 'max:2048']
+            'assets' => ['nullable', 'array'],
+            'assets.*' => ['file', 'mimes:jpg,jpeg,png,pdf,docx', 'max:2048']
         ];
     }
 }

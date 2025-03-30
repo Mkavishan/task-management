@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class TaskResource extends JsonResource
 {
@@ -14,6 +15,17 @@ class TaskResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+         $array = parent::toArray($request);
+
+         $assets = $this->assets->map(function ($asset) {
+             return [
+                 'name' => $asset->name,
+                 'url' => Storage::url($asset->path),
+             ];
+         });
+
+        $array['assets'] = $assets;
+
+        return $array;
     }
 }

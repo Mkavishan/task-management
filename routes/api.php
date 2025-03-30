@@ -6,4 +6,4 @@ Route::post('register', [\App\Http\Controllers\API\Auth\RegisterController::clas
 Route::post('login', [\App\Http\Controllers\API\Auth\LoginController::class, 'login'])->name('login');
 
 Route::resource('tasks', \App\Http\Controllers\API\TaskController::class)
-    ->middleware('auth:sanctum');
+    ->middleware(['auth:sanctum', 'throttle:api']);
